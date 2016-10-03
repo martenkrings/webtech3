@@ -2,18 +2,27 @@
  * Created by Marten on 9/26/2016.
  */
 //demo
-var express = require('express')
-var app = express();
-var bodyParser = require('body-parser');
-
-app.use(bodyParser.urlencoded((extended: true)))
-app.use(bodyParser.json)
-
-
-
-
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var jwt = require('jsonwebtoken');
+var mongoose = require('mongoose');
+
+app.set('private-key', 'nobodyshouldknow');
+
+//set up mongoose db connectioin
+mongoose.connect('mongodb://localhost/chat');
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json);
+
+//import chat router
+var chatResource = require("./resources/chatresource.js");
+app.use('/api/chats', chatResource);
+
+var autenthicationResource = require("./resources/autenticationresource.js");
+app.use("/api/authenticate", autenthicationResource);
+
 var db = {
     movies: [
         {
