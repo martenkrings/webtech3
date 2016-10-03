@@ -1,9 +1,16 @@
 /**
  * Created by Marten on 9/26/2016.
  */
+//demo
+var express = require('express')
+var app = express();
+var bodyParser = require('body-parser');
+
+
+
+
 var express = require('express');
 var app = express();
-
 var db = {
     movies: [
         {
@@ -30,26 +37,67 @@ var db = {
             director: "Barry Sonnenfeld",
             desc: "A police officer joins a secret organization that polices and monitors extraterrestrial interactions on Earth."
         }],
-
     users: [
-        {lastName: "Groot Wesseldijk", insertion: "", firstName: "Sander", username: "heuker", password: "password1"},
-        {lastName: "Krings", insertion: "", firstname: "Marten", username: "zixue", password: "password2"}
+        {
+            id: 1,
+            lastName: "Groot Wesseldijk",
+            insertion: "",
+            firstName: "Sander",
+            username: "heuker",
+            password: "password1"
+        },
+        {id: 2, lastName: "Krings", insertion: "", firstname: "Marten", username: "zixue", password: "password2"}
     ],
 
     ratings: [
-        {username: ""}
+        {userId: 1, rating: 5, movieTtNumber: "tt0119654"},
+        {userId: 2, rating: 3, movieTtNumber: "tt0119654"}
     ]
 };
+
+app.listen(3000, function () {
+    console.log('App listening on port 3000!');
+});
 
 //parse application/json
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+/**
+ * standard get to ensure setup went OK
+ */
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+/**
+ * Get a user by his id
+ */
+app.get('/user/:id', function (req, res) {
+    var users = db["users"];
+    var reqId = req.params.id;
+    console.log(reqId)
+    for (var i = 0; i < users.length; i++) {
+        if (users[i].id == reqId) {
+            res.send(users[i]);
+        }
+    }
 });
+
+/**
+ * Get all movies
+ */
+app.get("/movies/", function (req, res) {
+    res.send(db["movies"])
+})
+
+app.route("/register/:lastName/:firstName/:userName/:password").post(function (req, res) {
+    
+})
+
+
+
+
+
+
 
