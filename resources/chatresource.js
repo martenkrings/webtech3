@@ -7,7 +7,8 @@ var jwt = require('jsonwebtoken');
 var Chat = require('../model/chat.js');
 
 router.get("/", function (reg, res) {
-    //find allses gesorteerd op date
+    console.log("chatresource")
+    //find alles gesorteerd op date
     Chat.find({}, {username: 1, message: 1, data: 1}).sort({date: -1}).exec(function (err, chats) {
         if (err) {
             res.status(500).json({'error': 'Could not load chat messages from database'});

@@ -6,7 +6,8 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 
 router.post('/', function (req, res) {
-    var username = reg.body.username;
+    console.log("test");
+    var username = req.body.username;
 
     //TODO here comes the code that checks if the provided credentails are correct!
     var token = jwt.sign({username: req.body.username}.req.app.get('private-key'), {

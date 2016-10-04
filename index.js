@@ -1,7 +1,6 @@
 /**
- * Created by Marten on 9/26/2016.
+ * The index class
  */
-//demo
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -10,7 +9,7 @@ var mongoose = require('mongoose');
 
 app.set('private-key', 'nobodyshouldknow');
 
-//set up mongoose db connectioin
+//set up mongoose db connection
 mongoose.connect('mongodb://localhost/chat');
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,9 +19,10 @@ app.use(bodyParser.json);
 var chatResource = require("./resources/chatresource.js");
 app.use('/api/chats', chatResource);
 
-var autenthicationResource = require("./resources/autenticationresource.js");
-app.use("/api/authenticate", autenthicationResource);
+var authenticationresource = require("./resources/authenticationresource.js");
+app.use("/api/authenticate", authenticationresource);
 
+/**
 var db = {
     movies: [
         {
@@ -66,14 +66,11 @@ var db = {
         {userId: 2, rating: 3, movieTtNumber: "tt0119654"}
     ]
 };
+*/
 
 app.listen(3000, function () {
     console.log('App listening on port 3000!');
 });
-
-//parse application/json
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
 
 /**
  * standard get to ensure setup went OK
@@ -81,35 +78,3 @@ app.use(bodyParser.json());
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
-
-/**
- * Get a user by his id
- */
-app.get('/user/:id', function (req, res) {
-    var users = db["users"];
-    var reqId = req.params.id;
-    console.log(reqId)
-    for (var i = 0; i < users.length; i++) {
-        if (users[i].id == reqId) {
-            res.send(users[i]);
-        }
-    }
-});
-
-/**
- * Get all movies
- */
-app.get("/movies/", function (req, res) {
-    res.send(db["movies"])
-})
-
-app.route("/register/:lastName/:firstName/:userName/:password").post(function (req, res) {
-    
-})
-
-
-
-
-
-
-
